@@ -28,8 +28,8 @@ from typing import Optional, Union, List, Any, Dict, Literal
 from dataclasses import dataclass
 
 # from relational import rtypes
-from rtypes import *
-#import rtypes
+#from rtypes import * as rt
+import rtypes as rt
 
 __all__ = [
     'PRODUCT',
@@ -311,7 +311,7 @@ def parse_tokens(expression: List[Union[list, str]]) -> Node:
     # The list contains only 1 string. Means it is the name of a relation
     if len(expression) == 1:
         assert isinstance(expression[0], str)
-        if not rtypes.is_valid_relation_name(expression[0]):
+        if not rt.is_valid_relation_name(expression[0]):
             raise ParserException(
                 f'{expression[0]!r} is not a valid relation name')
         return Variable(expression[0]) #FIXME Move validation in the object
@@ -450,7 +450,7 @@ def tokenize(expression: str) -> list:
             # Initial part is a relation, stop when the name of the relation is
             # over
             for r in range(1, len(expression)):
-                if rtypes.RELATION_NAME_REGEXP.match(expression[:r + 1]) is None:
+                if rt.RELATION_NAME_REGEXP.match(expression[:r + 1]) is None:
                     break
             items.append(expression[:r])
             expression = expression[r:].strip()
